@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nf.lc.dao.TodoMapper">
+  <resultMap id="BaseResultMap" type="com.nf.lc.entity.Todo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="finished_at" jdbcType="TIMESTAMP" property="finishedAt" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from todo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nf.lc.entity.Todo">
+    insert into todo (name, detail,state, memo)
+    values ( #{name,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR},
+       #{state,jdbcType=VARCHAR},#{memo,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.nf.lc.entity.Todo">
+    update todo
+    set
+      finished_at = #{finishedAt,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, detail, created_at, finished_at, state, memo
+    from todo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from todo
+  </select>
+
+  <select id="selectByState" resultMap="BaseResultMap">
+    select * from todo where state = #{state}
+  </select>
+
+
+</mapper>
